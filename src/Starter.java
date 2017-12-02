@@ -10,6 +10,16 @@ public class Starter {
         String command = "";
 
         cs.start();
+
+        // for testing purposes, add 18 students, so we can test what happens in case the maximum
+        // number of students is reached
+
+        // without this event, the course section will continuously report:
+        // Operation incompatible with current state!
+        cs.addEvent("open_registration");
+        for(int i=0; i<18; i++) {
+            cs.addEvent("request_to_register");
+        }
         try {
             while(true) {
                 command = reader.readLine();

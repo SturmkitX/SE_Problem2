@@ -12,7 +12,7 @@ public class CourseSection extends Thread {
     private String lastEvent;
 
     public CourseSection() {
-        this.course = new Course();
+        this.course = new Course("Geometry");
         this.registrationList = new ArrayList<Registration>();
         this.open = false;
         this.closedOrCanceled = false;  // state = Planned
@@ -70,6 +70,7 @@ public class CourseSection extends Thread {
         }
 
         closedOrCanceled = true;
+        open = false;
         if(cond1) {
             registrationList.clear();
         }
@@ -84,6 +85,7 @@ public class CourseSection extends Thread {
         }
 
         closedOrCanceled = true;
+        open = false;
         registrationList.clear();
     }
 
@@ -94,7 +96,8 @@ public class CourseSection extends Thread {
                 case "open_registration" : openRegistration(); break;
                 case "close_registration" : closeRegistration(); break;
                 case "cancel" : cancel(); break;
-                case "request_to_register" : requestToRegister(new Student());
+                case "request_to_register" : requestToRegister(new Student()); break;
+                default : System.out.println("Another message delivered!");
             }
         } catch(IncompatibleOperationException e) {
             System.out.println(e.getMessage());
@@ -138,11 +141,11 @@ public class CourseSection extends Thread {
             String ev = events.poll();
             if(ev != null) {
                 handleEvent(ev);
-            }
-            System.out.println(this);
+                System.out.println(this);
 
-            if(getCurrentState().equals("CLOSED") || getCurrentState().equals("CANCELED")) {
-                break;
+                if(getCurrentState().equals("Closed") || getCurrentState().equals("Canceled")) {
+                    break;
+                }
             }
         }
     }
